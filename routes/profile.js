@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const base64 = require('base-64');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -9,9 +10,10 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/me', (req, res, next) => {
-  const url = 'https://graph.facebook.com/v2.2/me';
+  const url = 'https://api.spotify.com/v1/me';
   const access_token = req.session.access_token;
   if (!access_token) return res.redirect('/');
+  console.log(access_token);
   const options = {
     method: 'GET',
     url,
