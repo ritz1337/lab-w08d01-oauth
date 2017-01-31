@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/me', (req, res, next) => {
-  const url = 'https://www.googleapis.com/plus/v1/people/me';
+  const url = 'https://graph.facebook.com/v2.2/me';
   const access_token = req.session.access_token;
   if (!access_token) return res.redirect('/');
   const options = {
