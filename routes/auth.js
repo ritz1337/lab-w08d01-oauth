@@ -45,9 +45,8 @@ router.get('/', (req, res, next) =>{
     if (!err && response.statusCode === 200) {
       console.log(body);
       var info = JSON.parse(body);
-      // console.log(info);
-      // console.log('fjdsjnfakhuiraehignaejklvbaeuhvaer', info)
       req.session.access_token = info.access_token
+      // res.redirect('https://www.facebook.com/connect/login_success.html#' + req.session.access_token); //
       res.redirect('/profile'); //
     }
   })
