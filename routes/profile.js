@@ -8,11 +8,14 @@ router.get('/', (req, res, next) => {
   const url = `https://graph.facebook.com/debug_token?input_token=${access_token}&access_token=${access_token}`
   console.log(url);
   request(url, (err, res, body) => {
-    // const user = JSON.parse(body);
-    console.log(body);
-    console.log(res);
+    const data = JSON.parse(body);
+    req.session.user = data;
+    console.log(data.data);
   })
-  res.render('profile');
+  res.render('profile', {data: }, (err, html) => {
+    res.send(html);
+})
+
 });
 
 module.exports = router;

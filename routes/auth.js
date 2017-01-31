@@ -21,25 +21,19 @@ router.get('/login', (req, res, next) => {
   // console.log(client_id)
   // console.log(client_secret)
   let state = 'pikachu'
-  let scope = 'user'
-  let queryParams = `client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`
+  // let scope = 'user'
+  let queryParams = `client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`
   res.redirect(redirect_url + queryParams)
 });
 
 router.get('/', (req, res, next) =>{
   const code = req.query.code
   const state = req.query.state
-  let scope = 'user'
+  // let scope = 'user'
   let client_id = process.env.FB_CLIENT_ID
   let client_secret = process.env.FB_CLIENT_SECRET
-  let url = `https://graph.facebook.com/v2.8/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${code}&state=${state}&scope=${scope}`
-// console.log(data);
-// const options = {
-//   method: 'GET',
-//   url: 'https://graph.facebook.com/v2.8/oauth/access_token?',
-//   json: data
-// }
-// console.log(options);
+  let url = `https://graph.facebook.com/v2.8/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${code}&state=${state}`
+
   request(url, (err, response, body) => {
     if (!err && response.statusCode === 200) {
       console.log(body);
