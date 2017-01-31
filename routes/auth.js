@@ -3,30 +3,26 @@ const request = require('request');
 const base64 = require('base-64');
 const router = express.Router();
 
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const client_id = process.env.SLACK_CLIENT_ID;
+const client_secret = process.env.SLACK_CLIENT_SECRET;
 const redirect_uri = 'http://127.0.0.1:3000/auth/callback';
 
 // redirect to oauth provider
 router.get('/login', (req, res, next) => {
-  const url = 'https://accounts.spotify.com/authorize';
-  const queryParams = `client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&scope=user-read-private`
+  const url = 'https://slack.com/oauth/authorize';
+  const queryParams = `client_id=${client_id}&scope=identity.basic&redirect_uri=${redirect_uri}`
   res.redirect(url + '?' + queryParams);
 });
 
 router.get('/callback', (req, res, next) => {
   const {code} = req.query;
-  const url = 'https://accounts.spotify.com/api/token';
-  const encodedToken = base64.encode(client_id + ':' + client_secret);
+  const url = 'https://slack.com/api/oauth.access';
   const options = {
-    method: 'POST',
+    method: 'GET',
     url,
-    headers: {
-      'Authorization': `Basic ${encodedToken}`,
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    form: {
-      grant_type: 'authorization_code',
+    qs: {
+      client_id,
+      client_secret,
       code,
       redirect_uri
     }

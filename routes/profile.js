@@ -10,18 +10,18 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/me', (req, res, next) => {
-  const url = 'https://api.spotify.com/v1/me';
+  const url = 'https://slack.com/api/users.identity';
   const access_token = req.session.access_token;
   if (!access_token) return res.redirect('/');
   console.log(access_token);
   const options = {
     method: 'GET',
     url,
-    headers: { 'Authorization' : `Bearer ${access_token}`}
+    qs: { token : access_token}
   }
   request(options, (err, response, body) => {
-    const user = JSON.parse(body);
-    req.session.user = user;
+    const data = JSON.parse(body);
+    req.session.user = data.user;
     return res.redirect('/profile');
   })
 });
